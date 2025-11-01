@@ -6,8 +6,7 @@ const navItems = [
   { href: '#party-commitment', label: 'Giới thiệu' },
   { href: '#achievements', label: 'Thành tựu' },
   { href: '#principles', label: 'Nguyên tắc' },
-  { href: '#critical-question', label: 'Critical Question' },
-  { href: '#technical-design', label: 'Thiết kế' },
+  { href: '#critical-question', label: 'Câu hỏi CQ' },
   { href: '#references', label: 'Tài liệu' },
 ]
 
