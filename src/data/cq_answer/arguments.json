@@ -1,0 +1,27 @@
+{
+  "critical_question": "Liệu có phải một đảng cầm quyền là nguyên nhân dẫn đến tham nhũng ở Việt Nam?",
+  "wrong_claims": [
+    "Chế độ một đảng cầm quyền là nguyên nhân sinh ra tham nhũng",
+    "Tham nhũng thuộc về bản chất của chế độ xã hội chủ nghĩa",
+    "Chỉ đa đảng mới dẹp bỏ được tham nhũng"
+  ],
+  "scientific_truths": [
+    "Tham nhũng là 'khuyết tật bẩm sinh' của quyền lực; ở đâu có quyền lực, ở đó có nguy cơ tham nhũng khi bị lạm dụng",
+    "Nguyên nhân cốt lõi là lòng tham của con người, không phụ thuộc thể chế",
+    "Hiệu quả PCTN phụ thuộc cơ chế kiểm soát quyền lực, pháp luật, phẩm chất cán bộ và năng lực quản trị"
+  ],
+  "comparison_multi_party": {
+    "summary": "Đa đảng không phải 'phép màu' để chống tham nhũng",
+    "notes": [
+      "Tham nhũng phổ biến ở nhiều quốc gia đa đảng",
+      "CPI: Việt Nam 41/100 (2023), xếp 83/180; 97 quốc gia (đa số đa đảng) xếp dưới"
+    ]
+  },
+  "decisive_factors": [
+    "Kiểm soát quyền lực chặt chẽ",
+    "Chất lượng hệ thống pháp luật",
+    "Phẩm chất cán bộ, công chức",
+    "Năng lực quản trị của Nhà nước"
+  ],
+  "conclusion": "KHÔNG! Một đảng cầm quyền không phải là nguyên nhân dẫn đến tham nhũng ở Việt Nam."
+}

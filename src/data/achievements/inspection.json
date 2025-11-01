@@ -1,0 +1,23 @@
+{
+  "title": "Công tác thanh tra, kiểm toán",
+  "periods": [
+    {
+      "label": "2013-2020",
+      "items": [
+        { "label": "Kiến nghị thu hồi", "value": "700.000 tỷ đồng" },
+        { "label": "Diện tích đất", "value": "20.000 ha" },
+        { "label": "Tập thể, cá nhân bị xử lý", "value": "14.000" },
+        { "label": "Chuyển điều tra", "value": "700 vụ việc" }
+      ]
+    },
+    {
+      "label": "Năm 2023",
+      "items": [
+        { "label": "Kiến nghị thu hồi", "value": "219.000 tỷ đồng", "note": "↑ Gấp 3 lần so với 2022" },
+        { "label": "Tập thể bị xử lý", "value": "7.524" },
+        { "label": "Cá nhân bị xử lý", "value": "7.944" },
+        { "label": "Chuyển cơ quan điều tra", "value": "660 vụ việc", "note": "↑ 18%" }
+      ]
+    }
+  ]
+}

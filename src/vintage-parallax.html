@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Không Vùng Cấm - Câu Chuyện Chống Tham Nhũng</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Crimson+Text:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Crimson Text', serif;
+            overflow-x: hidden;
+        }
+        
+        /* Fixed background for black & white image */
+        .fixed-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #1a1a1a;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .fixed-background::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Scrolling content */
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .story-panel {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .story-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Vintage paper texture */
+        .content-card {
+            background: linear-gradient(135deg, 
+                rgba(222, 184, 135, 0.97) 0%, 
+                rgba(210, 180, 140, 0.97) 50%,
+                rgba(205, 170, 125, 0.97) 100%);
+            backdrop-filter: blur(15px);
+            border: 4px solid rgba(101, 67, 33, 0.8);
+            border-radius: 1rem;
+            padding: 3rem;
+            max-width: 1200px;
+            width: 100%;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.8),
+                inset 0 1px 3px rgba(255, 255, 255, 0.3),
+                inset 0 -1px 3px rgba(0, 0, 0, 0.3);
+            color: #2d1b00;
+            position: relative;
+        }
+        
+        /* Paper texture overlay */
+        .content-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px);
+            pointer-events: none;
+            border-radius: 1rem;
+        }
+        
+        .hero-content {
+            background: transparent;
+            text-align: center;
+            color: #fff;
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8B4513 0%, #D2691E 100%);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+        
+        .stat-box {
+            background: linear-gradient(135deg, 
+                rgba(245, 222, 179, 0.9) 0%, 
+                rgba(233, 213, 173, 0.9) 100%);
+            border: 3px solid rgba(139, 69, 19, 0.5);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 4px 8px rgba(0, 0, 0, 0.4),
+                inset 0 1px 2px rgba(255, 255, 255, 0.3);
+            color: #3d2817;
+        }
+        
+        .stat-box:hover {
+            background: linear-gradient(135deg, 
+                rgba(255, 239, 213, 0.95) 0%, 
+                rgba(245, 222, 179, 0.95) 100%);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 
+                0 8px 16px rgba(0, 0, 0, 0.5),
+                inset 0 1px 3px rgba(255, 255, 255, 0.4);
+        }
+        
+        .quote-mark {
+            font-size: 4rem;
+            line-height: 0;
+            color: #8B4513;
+            opacity: 0.5;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .timeline-dot {
+            width: 1.25rem;
+            height: 1.25rem;
+            background: #8B4513;
+            border: 3px solid rgba(210, 180, 140, 0.9);
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            top: 0.5rem;
+            box-shadow: 0 0 15px rgba(139, 69, 19, 0.8);
+        }
+        
+        .timeline-line {
+            position: absolute;
+            left: 0.6rem;
+            top: 1.8rem;
+            width: 3px;
+            height: calc(100% - 1.8rem);
+            background: linear-gradient(180deg, #8B4513 0%, rgba(139, 69, 19, 0.3) 100%);
+        }
+        
+        /* Vintage typography */
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .vintage-heading {
+            color: #4a2c0a;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .vintage-text {
+            color: #3d2817;
+        }
+        
+        .vintage-subtext {
+            color: #5d4037;
+        }
+        
+        .vintage-accent {
+            color: #8B4513;
+            font-weight: 700;
+        }
+        
+        .vintage-number {
+            color: #654321;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Aged paper effect for special cards */
+        .aged-paper {
+            background: linear-gradient(135deg, 
+                rgba(205, 170, 125, 0.95) 0%, 
+                rgba(195, 155, 110, 0.95) 100%);
+            border: 3px solid rgba(101, 67, 33, 0.6);
+        }
+        
+        .wrong-box {
+            background: linear-gradient(135deg, 
+                rgba(205, 92, 92, 0.3) 0%, 
+                rgba(178, 34, 34, 0.2) 100%);
+            border: 3px solid rgba(139, 0, 0, 0.5);
+        }
+        
+        .right-box {
+            background: linear-gradient(135deg, 
+                rgba(107, 142, 35, 0.3) 0%, 
+                rgba(85, 107, 47, 0.2) 100%);
+            border: 3px solid rgba(85, 107, 47, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+            .content-card {
+                padding: 2rem;
+            }
+            .story-panel {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Fixed Background (user will add their B&W image here) -->
+    <div class="fixed-background" style="background-image: url('YOUR_IMAGE_URL_HERE.jpg');"></div>
+    
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <!-- Scrolling Content -->
+    <div class="content-wrapper">
+        
+        <!-- Hero Panel -->
+        <div class="story-panel" style="opacity: 1; transform: translateY(0);">
+            <div class="hero-content">
+                <div class="text-8xl mb-8 animate-pulse">⚖️</div>
+                <h1 class="text-6xl md:text-8xl font-black mb-6 leading-tight drop-shadow-2xl" style="font-family: 'Playfair Display', serif;">
+                    KHÔNG VÙNG CẤM
+                </h1>
+                <h2 class="text-4xl md:text-6xl font-bold mb-8 drop-shadow-xl" style="color: #D2691E;">
+                    KHÔNG NGOẠI LỆ
+                </h2>
+                <p class="text-2xl md:text-3xl max-w-3xl mx-auto mb-12">
+                    Câu chuyện về quyết tâm chống tham nhũng của Việt Nam
+                </p>
+                <div class="animate-bounce mt-12">
+                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 1: The Beginning -->
+        <div class="story-panel">
+            <div class="content-card">
+                <h2 class="text-5xl md:text-7xl font-black mb-8 vintage-heading">Năm 2013...</h2>
+                <div class="text-2xl md:text-3xl leading-relaxed space-y-6 vintage-text">
+                    <p>Ngày 1 tháng 2 năm 2013, một quyết định lịch sử được đưa ra.</p>
+                    <p class="font-semibold vintage-heading">Ban Chỉ đạo Trung ương về phòng chống tham nhũng được thành lập.</p>
+                    <p>Dưới sự lãnh đạo của <span class="vintage-accent">Tổng Bí thư Nguyễn Phú Trọng</span>, một cuộc chiến mới bắt đầu.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 2: The Promise -->
+        <div class="story-panel">
+            <div class="content-card text-center">
+                <div class="quote-mark">"</div>
+                <blockquote class="text-3xl md:text-5xl font-bold leading-relaxed my-8 vintage-heading">
+                    Kiên quyết, kiên trì,<br/>
+                    không nghỉ, không ngừng
+                </blockquote>
+                <div class="quote-mark" style="transform: rotate(180deg);">"</div>
+                <p class="text-xl mt-8 vintage-accent">- Tổng Bí thư Nguyễn Phú Trọng</p>
+                <div class="mt-12 text-2xl vintage-text">
+                    <p>Đây không chỉ là lời hứa.</p>
+                    <p class="mt-4 vintage-heading font-semibold text-3xl">Đây là cam kết.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 3: Four Goals -->
+        <div class="story-panel">
+            <div class="content-card">
+                <h2 class="text-4xl md:text-6xl font-black mb-12 text-center vintage-heading">Bốn mục tiêu được đặt ra</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="stat-box">
+                        <div class="text-6xl mb-4">🛡️</div>
+                        <h3 class="text-3xl font-bold mb-3 vintage-accent">KHÔNG THỂ</h3>
+                        <p class="text-lg vintage-subtext">Tạo môi trường không thể tham nhũng</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-6xl mb-4">⚠️</div>
+                        <h3 class="text-3xl font-bold mb-3 vintage-accent">KHÔNG DÁM</h3>
+                        <p class="text-lg vintage-subtext">Răn đe nghiêm khắc với kẻ tham nhũng</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-6xl mb-4">✅</div>
+                        <h3 class="text-3xl font-bold mb-3 vintage-accent">KHÔNG MUỐN</h3>
+                        <p class="text-lg vintage-subtext">Nâng cao ý thức đạo đức, liêm chính</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-6xl mb-4">🎯</div>
+                        <h3 class="text-3xl font-bold mb-3 vintage-accent">KHÔNG CẦN</h3>
+                        <p class="text-lg vintage-subtext">Đảm bảo sinh hoạt đầy đủ cho cán bộ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 4: Timeline -->
+        <div class="story-panel">
+            <div class="content-card">
+                <h2 class="text-5xl md:text-6xl font-black mb-12 vintage-heading">Hành trình bắt đầu</h2>
+                <div class="space-y-8">
+                    <div class="relative pl-12">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-line"></div>
+                        <h3 class="text-3xl font-bold vintage-accent mb-2">2013</h3>
+                        <p class="text-xl vintage-text">Ban Chỉ đạo được thành lập. Cuộc chiến chống tham nhũng chính thức khởi động.</p>
+                    </div>
+                    <div class="relative pl-12">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-line"></div>
+                        <h3 class="text-3xl font-bold vintage-accent mb-2">2016</h3>
+                        <p class="text-xl vintage-text">Chiến dịch "Không vùng cấm" bắt đầu. Những cái tên lớn đầu tiên ngã xuống.</p>
+                    </div>
+                    <div class="relative pl-12">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-line"></div>
+                        <h3 class="text-3xl font-bold vintage-accent mb-2">2020</h3>
+                        <p class="text-xl vintage-text">Một mốc son. Hơn 131.000 đảng viên bị kỷ luật. Không ai được ngoại lệ.</p>
+                    </div>
+                    <div class="relative pl-12">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-3xl font-bold vintage-accent mb-2">2023</h3>
+                        <p class="text-xl vintage-text">Cuộc chiến tiếp tục. Mạnh mẽ hơn. Quyết liệt hơn.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 5: Big Numbers -->
+        <div class="story-panel">
+            <div class="content-card">
+                <h2 class="text-5xl md:text-7xl font-black mb-8 text-center vintage-heading">Con số nói lên tất cả</h2>
+                <p class="text-2xl text-center vintage-subtext mb-12">Từ 2013 đến 2020</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="stat-box">
+                        <div class="text-6xl font-black mb-4 vintage-number">131.000</div>
+                        <p class="text-xl vintage-text">Đảng viên bị kỷ luật</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-6xl font-black mb-4 vintage-number">110</div>
+                        <p class="text-xl vintage-text">Cán bộ cấp TW quản lý</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-6xl font-black mb-4 vintage-number">30</div>
+                        <p class="text-xl vintage-text">Sĩ quan cấp tướng</p>
+                    </div>
+                </div>
+
+                <div class="text-3xl text-center mt-12 font-bold vintage-heading">
+                    Không vùng cấm. Không ngoại lệ.
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 6: Year 2023 -->
+        <div class="story-panel">
+            <div class="content-card aged-paper">
+                <h2 class="text-6xl md:text-8xl font-black mb-8 text-center vintage-heading">2023</h2>
+                <p class="text-3xl text-center mb-12 vintage-text">Một năm đột phá</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="stat-box">
+                        <div class="text-5xl font-black mb-4 vintage-number">24.162</div>
+                        <p class="text-lg vintage-text mb-2">Đảng viên bị kỷ luật</p>
+                        <p class="vintage-accent font-semibold">↑ Tăng 12% so với 2022</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-5xl font-black mb-4 vintage-number">459</div>
+                        <p class="text-lg vintage-text mb-2">Trường hợp do tham nhũng</p>
+                        <p class="vintage-accent font-semibold">Xử lý nghiêm minh</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-5xl font-black mb-4 vintage-number">219.000 tỷ</div>
+                        <p class="text-lg vintage-text mb-2">Thu hồi được</p>
+                        <p class="vintage-accent font-semibold">↑ Gấp 3 lần năm 2022</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-5xl font-black mb-4 vintage-number">899</div>
+                        <p class="text-lg vintage-text mb-2">Vụ án tham nhũng</p>
+                        <p class="vintage-accent font-semibold">↑ Gần gấp đôi năm trước</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 7: No Forbidden Zone -->
+        <div class="story-panel">
+            <div class="content-card">
+                <h2 class="text-5xl md:text-7xl font-black mb-12 text-center vintage-heading">Không có vùng cấm</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="stat-box">
+                        <div class="text-6xl mb-4">🏦</div>
+                        <h3 class="text-2xl font-bold mb-2 vintage-heading">Ngân hàng</h3>
+                        <p class="vintage-subtext">Từ cơ sở đến cấp cao</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-6xl mb-4">🏗️</div>
+                        <h3 class="text-2xl font-bold mb-2 vintage-heading">Đất đai</h3>
+                        <p class="vintage-subtext">Xử lý nghiêm khắc</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-6xl mb-4">🚗</div>
+                        <h3 class="text-2xl font-bold mb-2 vintage-heading">Giao thông</h3>
+                        <p class="vintage-subtext">Các dự án lớn</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-6xl mb-4">🏥</div>
+                        <h3 class="text-2xl font-bold mb-2 vintage-heading">Y tế</h3>
+                        <p class="vintage-subtext">Mua sắm thiết bị</p>
+                    </div>
+                </div>
+                
+                <div class="text-3xl text-center mt-12 vintage-heading font-bold">
+                    Bất kể người đó là ai
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 8: Asset Recovery -->
+        <div class="story-panel">
+            <div class="content-card">
+                <h2 class="text-5xl md:text-6xl font-black mb-12 text-center vintage-heading">Thu hồi tài sản</h2>
+                
+                <div class="space-y-12">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-3xl font-bold vintage-text">2013</span>
+                            <span class="text-4xl font-black" style="color: #8B0000;">&lt;10%</span>
+                        </div>
+                        <div class="w-full h-6 rounded-full overflow-hidden" style="background: rgba(139, 69, 19, 0.3);">
+                            <div class="h-full rounded-full transition-all duration-1000" style="width: 10%; background: #8B0000;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-3xl text-center vintage-subtext py-8">
+                        ↓ Nỗ lực không ngừng ↓
+                    </div>
+                    
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-3xl font-bold vintage-text">2023</span>
+                            <span class="text-4xl font-black" style="color: #556B2F;">34.7%</span>
+                        </div>
+                        <div class="w-full h-6 rounded-full overflow-hidden" style="background: rgba(139, 69, 19, 0.3);">
+                            <div class="h-full rounded-full transition-all duration-1000" style="width: 34.7%; background: #556B2F;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-12 text-center stat-box">
+                    <p class="text-xl vintage-subtext mb-4">Vụ án do Ban Chỉ đạo theo dõi</p>
+                    <p class="text-6xl font-black vintage-number mb-4">50.000 tỷ</p>
+                    <p class="text-2xl vintage-accent font-bold">Đạt 41.3%</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 9: The Critical Question -->
+        <div class="story-panel">
+            <div class="content-card aged-paper text-center">
+                <h2 class="text-5xl md:text-7xl font-black mb-12 vintage-heading">Câu hỏi quan trọng</h2>
+                
+                <div class="text-3xl md:text-4xl mb-12 leading-relaxed vintage-text">
+                    Liệu có phải một đảng cầm quyền<br/>
+                    là nguyên nhân dẫn đến tham nhũng?
+                </div>
+                
+                <div class="text-2xl vintage-accent font-semibold">
+                    Hãy cùng tìm hiểu sự thật...
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 10: Wrong Arguments -->
+        <div class="story-panel">
+            <div class="content-card">
+                <h2 class="text-4xl md:text-6xl font-black mb-8 text-center vintage-heading">Luận điểm sai trái</h2>
+                
+                <div class="space-y-6">
+                    <div class="stat-box wrong-box">
+                        <div class="text-4xl mb-4">❌</div>
+                        <p class="text-2xl vintage-text">Tham nhũng là "căn bệnh kinh niên" của chế độ xã hội chủ nghĩa</p>
+                    </div>
+                    <div class="stat-box wrong-box">
+                        <div class="text-4xl mb-4">❌</div>
+                        <p class="text-2xl vintage-text">Một đảng cầm quyền tất yếu dẫn đến tham nhũng</p>
+                    </div>
+                    <div class="stat-box wrong-box">
+                        <div class="text-4xl mb-4">❌</div>
+                        <p class="text-2xl vintage-text">Chế độ đa đảng là "phép màu" chống tham nhũng</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 11: Scientific Truth -->
+        <div class="story-panel">
+            <div class="content-card">
+                <h2 class="text-4xl md:text-6xl font-black mb-8 text-center vintage-heading">Sự thật khoa học</h2>
+                
+                <div class="space-y-6">
+                    <div class="stat-box right-box">
+                        <div class="text-4xl mb-4">✓</div>
+                        <p class="text-2xl vintage-heading mb-4">Tham nhũng là "khuyết tật bẩm sinh" của quyền lực</p>
+                        <p class="text-lg vintage-subtext">Ở đâu có quyền lực, ở đó có nguy cơ tham nhũng khi bị lạm dụng</p>
+                    </div>
+                    <div class="stat-box right-box">
+                        <div class="text-4xl mb-4">✓</div>
+                        <p class="text-2xl vintage-heading mb-4">Nguyên nhân: lòng tham của con người</p>
+                        <p class="text-lg vintage-subtext">Không phụ thuộc vào thể chế chính trị hay chế độ xã hội</p>
+                    </div>
+                    <div class="stat-box right-box">
+                        <div class="text-4xl mb-4">✓</div>
+                        <p class="text-2xl vintage-heading mb-4">Hiệu quả phụ thuộc vào nhiều yếu tố</p>
+                        <p class="text-lg vintage-subtext">Pháp luật, năng lực quản trị, phẩm chất cán bộ, cơ chế kiểm soát</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 12: CPI Evidence -->
+        <div class="story-panel">
+            <div class="content-card">
+                <h2 class="text-5xl md:text-7xl font-black mb-12 text-center vintage-heading">Bằng chứng thực tế</h2>
+                
+                <h3 class="text-3xl font-bold mb-8 text-center vintage-text">Chỉ số CPI 2022</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                    <div class="stat-box">
+                        <div class="text-5xl font-black mb-4 vintage-number">80/180</div>
+                        <p class="text-xl vintage-text">Xếp hạng Việt Nam</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-5xl font-black mb-4 vintage-number">100</div>
+                        <p class="text-xl vintage-text">Quốc gia xếp dưới VN</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-5xl font-black mb-4 vintage-number">Đa số</div>
+                        <p class="text-xl vintage-text">Là chế độ đa đảng</p>
+                    </div>
+                </div>
+                
+                <div class="text-3xl text-center font-bold vintage-accent">
+                    Chế độ đa đảng KHÔNG phải "phép màu"
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 13: Party Commitment -->
+        <div class="story-panel">
+            <div class="content-card aged-paper">
+                <h2 class="text-5xl md:text-7xl font-black mb-12 text-center vintage-heading">Cam kết của Đảng</h2>
+                
+                <div class="space-y-8 text-xl md:text-2xl leading-relaxed vintage-text">
+                    <p>Đảng coi tham nhũng là <span class="font-bold vintage-accent">"giặc nội xâm"</span>, một trong 4 nguy cơ đe dọa sự tồn vong của chế độ</p>
+                    
+                    <div class="my-12 p-8 rounded-xl" style="background: rgba(139, 69, 19, 0.15); border: 2px solid rgba(139, 69, 19, 0.4);">
+                        <p class="italic text-center">
+                            "Quan liêu, tham nhũng, xa rời Nhân dân sẽ dẫn đến những tổn thất khôn lường đối với vận mệnh của đất nước, của chế độ XHCN và của Đảng"
+                        </p>
+                        <p class="text-center mt-4 vintage-subtext">- Cương lĩnh 2011</p>
+                    </div>
+                    
+                    <p class="text-center text-3xl font-bold vintage-heading">
+                        Phòng chống tham nhũng là<br/>
+                        <span class="vintage-accent">"mệnh lệnh sống còn"</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 14: Proof by Action -->
+        <div class="story-panel">
+            <div class="content-card">
+                <h2 class="text-5xl md:text-7xl font-black mb-12 text-center vintage-heading">Chứng minh bằng hành động</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="stat-box">
+                        <div class="text-6xl mb-6">🛡️</div>
+                        <h3 class="text-2xl font-bold mb-4 vintage-heading">Xử lý nghiêm</h3>
+                        <p class="text-lg vintage-text">Ủy viên Bộ Chính trị, Bí thư tỉnh ủy, Bộ trưởng, Tướng lĩnh</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-6xl mb-6">⚖️</div>
+                        <h3 class="text-2xl font-bold mb-4 vintage-heading">Công khai minh bạch</h3>
+                        <p class="text-lg vintage-text">"Ta đánh ta" nhưng đúng pháp luật, nghiêm minh và nhân văn</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-6xl mb-6">📈</div>
+                        <h3 class="text-2xl font-bold mb-4 vintage-heading">Kết quả tăng mạnh</h3>
+                        <p class="text-lg vintage-text">Thu hồi tài sản và xử lý tăng đáng kể</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 15: Solutions -->
+        <div class="story-panel">
+            <div class="content-card">
+                <h2 class="text-5xl md:text-7xl font-black mb-12 text-center vintage-heading">6 nhiệm vụ then chốt</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="stat-box">
+                        <div class="text-5xl mb-4">👥</div>
+                        <h3 class="text-xl font-bold mb-2 vintage-accent">Thống nhất nhận thức</h3>
+                        <p class="vintage-text">Trách nhiệm người đứng đầu</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-5xl mb-4">📋</div>
+                        <h3 class="text-xl font-bold mb-2 vintage-accent">Hoàn thiện pháp luật</h3>
+                        <p class="vintage-text">Quy định đồng bộ, chặt chẽ</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-5xl mb-4">🏆</div>
+                        <h3 class="text-xl font-bold mb-2 vintage-accent">Xây dựng đội ngũ</h3>
+                        <p class="vintage-text">Cán bộ liêm chính, trong sạch</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-5xl mb-4">👁️</div>
+                        <h3 class="text-xl font-bold mb-2 vintage-accent">Công khai minh bạch</h3>
+                        <p class="vintage-text">Kiểm soát tài sản, thu nhập</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-5xl mb-4">🤝</div>
+                        <h3 class="text-xl font-bold mb-2 vintage-accent">Phối hợp chặt chẽ</h3>
+                        <p class="vintage-text">Các cơ quan làm việc đồng bộ</p>
+                    </div>
+                    <div class="stat-box">
+                        <div class="text-5xl mb-4">📈</div>
+                        <h3 class="text-xl font-bold mb-2 vintage-accent">Rút kinh nghiệm</h3>
+                        <p class="vintage-text">Sơ kết, cải tiến liên tục</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel 16: Conclusion -->
+        <div class="story-panel">
+            <div class="content-card aged-paper text-center">
+                <div class="text-8xl mb-8">⚖️</div>
+                <h2 class="text-5xl md:text-7xl font-black mb-12 vintage-heading">Kết luận</h2>
+                <div class="text-2xl md:text-3xl leading-relaxed space-y-8 vintage-text">
+                    <p>Thành tựu chống tham nhũng là minh chứng cho quyết tâm chính trị.</p>
+                    <p>Là minh chứng cho năng lực lãnh đạo của Đảng.</p>
+                    <p>Là minh chứng cho niềm tin của nhân dân.</p>
+                    <div class="py-8">
+                        <p class="text-4xl font-black vintage-heading">
+                            Kiên quyết, kiên trì,<br/>
+                            không nghỉ, không ngừng
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Panel: Credits -->
+        <div class="story-panel" style="min-height: 50vh;">
+            <div class="content-card text-center">
+                <h3 class="text-2xl font-bold mb-6 vintage-accent">Tài liệu tham khảo</h3>
+                <div class="vintage-subtext space-y-3">
+                    <p>• Giáo trình Chủ nghĩa xã hội khoa học (2019, 2021)</p>
+                    <p>• Tài liệu giảng dạy về phòng, chống tham nhũng</p>
+                    <p>• "Kiên quyết, kiên trì đấu tranh..." - TBT Nguyễn Phú Trọng</p>
+                    <p class="pt-8" style="color: #8B7355;">© 2025 - Dự án học tập MLN</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Progress bar
+        window.addEventListener('scroll', () => {
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight - windowHeight;
+            const scrolled = window.scrollY;
+            const progress = (scrolled / documentHeight) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            
+            // Fade in sections
+            const sections = document.querySelectorAll('.story-panel');
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < windowHeight * 0.75) {
+                    section.classList.add('visible');
+                }
+            });
+        });
+        
+        // Trigger initial check
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+</body>
+</html>

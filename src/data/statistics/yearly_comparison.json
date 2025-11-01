@@ -1,0 +1,10 @@
+{
+  "asset_recovery": {
+    "start": { "year": 2013, "rate": 10, "label": "<10%" },
+    "end": { "year": 2023, "rate": 34.7, "label": "34,7%" }
+  },
+  "bcd_tracking": {
+    "amount": "50.000 tỷ đồng",
+    "rate": 41.3
+  }
+}

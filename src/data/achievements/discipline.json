@@ -1,0 +1,34 @@
+{
+  "title": "Công tác kỷ luật Đảng",
+  "periods": [
+    {
+      "label": "2013-2020",
+      "items": [
+        { "label": "Đảng viên bị kỷ luật", "value": "131.000" },
+        { "label": "Cán bộ diện Trung ương quản lý bị xử lý", "value": "110" },
+        { "label": "Ủy viên Trung ương", "value": "27" },
+        { "label": "Ủy viên Bộ Chính trị", "value": "4" },
+        { "label": "Sĩ quan cấp tướng", "value": "30" }
+      ]
+    },
+    {
+      "label": "Năm 2023",
+      "items": [
+        { "label": "Tổ chức đảng bị kỷ luật", "value": "606" },
+        { "label": "Đảng viên bị kỷ luật", "value": "24.162" },
+        { "label": "Trong đó do tham nhũng", "value": "459" },
+        { "label": "So với 2022", "value": "↑ 12%", "note": "Tăng 12% so với 2022" }
+      ]
+    },
+    {
+      "label": "Đến 02/2024",
+      "items": [
+        { "label": "Cán bộ diện Trung ương quản lý", "value": "105" },
+        { "label": "Ủy viên/nguyên Ủy viên Trung ương", "value": "22" }
+      ]
+    }
+  ],
+  "highlights": [
+    "Lần đầu tiên: 6 cán bộ bị xử lý do vi phạm kê khai tài sản, thu nhập (minh bạch hóa tài sản)"
+  ]
+}

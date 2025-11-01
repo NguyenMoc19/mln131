@@ -1,0 +1,24 @@
+{
+  "title": "Công tác điều tra, truy tố, xét xử",
+  "periods": [
+    {
+      "label": "2012-2022",
+      "items": [
+        { "label": "Vụ án được xử lý (khởi tố/điều tra/xét xử)", "value": "≈ 16.000 vụ" },
+        { "label": "Bị cáo", "value": "> 30.300" }
+      ]
+    },
+    {
+      "label": "Năm 2023",
+      "items": [
+        { "label": "Khởi tố", "value": "4.500 vụ / 9.370 bị can", "note": "↑ 46% số vụ" },
+        { "label": "Án tham nhũng", "value": "899 vụ / 2.446 bị can", "note": "↑ Gần 2 lần" }
+      ]
+    }
+  ],
+  "tracking": [
+    { "label": "Vụ án/vụ việc vào diện theo dõi", "value": "977" },
+    { "label": "Vụ án do Ban Chỉ đạo trực tiếp chỉ đạo", "value": "180" },
+    { "label": "Vụ việc do Ban Chỉ đạo trực tiếp chỉ đạo", "value": "133" }
+  ]
+}
