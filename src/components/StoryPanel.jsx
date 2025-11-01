@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 
-export default function StoryPanel({ children, className = '', initiallyVisible = false }) {
+export default function StoryPanel({ children, className = '', initiallyVisible = false, ...rest }) {
   const ref = useRef(null)
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export default function StoryPanel({ children, className = '', initiallyVisible 
   }, [initiallyVisible])
 
   return (
-    <section ref={ref} className={`story-panel ${className}`}>
+    <section ref={ref} className={`story-panel ${className}`} {...rest}>
       {children}
     </section>
   )
