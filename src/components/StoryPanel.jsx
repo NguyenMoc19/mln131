@@ -1,46 +1,15 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React from 'react'
 
-export default function StoryPanel({ children, className = '', initiallyVisible = false, backgroundIndex, ...rest }) {
-  const ref = useRef(null)
-
-  const resolvedBackgroundIndex = useMemo(() => {
-    if (backgroundIndex === null) return null
-    if (typeof backgroundIndex === 'number' && backgroundIndex >= 0) return backgroundIndex
-    return undefined
-  }, [backgroundIndex])
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-
-    if (initiallyVisible) {
-      el.classList.add('visible')
-      return
-    }
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('visible')
-          }
-        })
-      },
-      { root: null, threshold: 0.25, rootMargin: '0px 0px -10% 0px' }
-    )
-
-    io.observe(el)
-    return () => io.disconnect()
-  }, [initiallyVisible])
-
+export default function StoryPanel({ id, children, className = '', ...props }) {
   return (
     <section
-      ref={ref}
-      className={`story-panel ${className}`}
-      {...(resolvedBackgroundIndex === null ? {} : { 'data-fixed-bg-index': resolvedBackgroundIndex })}
-      {...rest}
+      id={id}
+      className={`relative min-h-screen flex items-center justify-center px-6 py-20 ${className}`}
+      {...props}
     >
-      {children}
+      <div className="relative z-10 w-full max-w-7xl">
+        {children}
+      </div>
     </section>
   )
 }

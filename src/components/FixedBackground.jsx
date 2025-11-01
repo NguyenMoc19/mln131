@@ -1,108 +1,45 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-const DEFAULT_BACKGROUNDS = [
-  'https://imgcdn.tapchicongthuong.vn/tcct-media/23/9/23/cam_650e6ea3a4dfa.jpg',
-  'https://a.tcnn.vn/Images/images/tong-bi-thu-nguyen-phu-trong-phai-neu-cao-hon-nua-tinh-than-trach-nhiem-quyet-liet-dau-tranh-phong-chong-tham-nhung-tieu-cuc-20230619142728.jpg?fbclid=IwY2xjawNzEq1leHRuA2FlbQIxMABicmlkETFxTW9IZmlIMEJDUDIxckxRAR7uHdK8JCKsm0YEwdGfODEZjmkB3DebADKE_hTm3k_i7moKJNOyOYJt_3MrTA_aem_iN2b96ZWq37iNhkfdIx0BQ',
-]
-
-export default function FixedBackground({ imageUrl, imageUrls = [] }) {
-  const backgrounds = useMemo(() => {
-    if (Array.isArray(imageUrls) && imageUrls.length > 0) {
-      return imageUrls
-    }
-    if (imageUrl) {
-      return [imageUrl]
-    }
-    return DEFAULT_BACKGROUNDS
-  }, [imageUrl, imageUrls])
-
+export default function FixedBackground({ imageUrls }) {
   const [activeIndex, setActiveIndex] = useState(0)
 
   useEffect(() => {
-    setActiveIndex(0)
-  }, [backgrounds.length])
+    const handleScroll = () => {
+      const sections = document.querySelectorAll('[data-bg-index]')
+      const scrollPosition = window.scrollY + window.innerHeight / 2
 
-  useEffect(() => {
-    const rawSections = document.querySelectorAll('[data-fixed-bg-index]')
-    if (!rawSections.length) return
-
-    const panels = Array.from(rawSections)
-      .map((section) => {
-        const attr = section.getAttribute('data-fixed-bg-index')
-        const parsedIndex = Number.parseInt(attr ?? '', 10)
-        if (Number.isNaN(parsedIndex)) return null
-        return { section, index: Math.max(0, Math.min(backgrounds.length - 1, parsedIndex)) }
-      })
-      .filter((entry) => entry !== null)
-
-    if (!panels.length) return
-
-    let frameId = 0
-
-    const resolveActiveIndex = () => {
-      frameId = 0
-      const viewportHeight = window.innerHeight || 0
-      const viewportMid = viewportHeight / 2
-
-      let bestIndex = panels[0]?.index ?? 0
-      let bestDistance = Number.POSITIVE_INFINITY
-      let hasVisible = false
-
-      panels.forEach(({ section, index }) => {
-        const rect = section.getBoundingClientRect()
-        if (rect.bottom <= 0 || rect.top >= viewportHeight) return
-        hasVisible = true
-        const sectionMid = rect.top + rect.height / 2
-        const distance = Math.abs(sectionMid - viewportMid)
-        if (distance < bestDistance) {
-          bestDistance = distance
-          bestIndex = index
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i]
+        const sectionTop = section.offsetTop
+        
+        if (scrollPosition >= sectionTop) {
+          const bgIndex = parseInt(section.getAttribute('data-bg-index'))
+          setActiveIndex(bgIndex)
+          break
         }
-      })
-
-      if (!hasVisible) {
-        let closestAboveDistance = Number.POSITIVE_INFINITY
-        panels.forEach(({ section, index }) => {
-          const rect = section.getBoundingClientRect()
-          const distance = rect.top < 0 ? Math.abs(rect.top) : rect.top
-          if (distance < closestAboveDistance) {
-            closestAboveDistance = distance
-            bestIndex = index
-          }
-        })
       }
-
-      setActiveIndex((prev) => (prev === bestIndex ? prev : bestIndex))
     }
 
-    const requestUpdate = () => {
-      if (frameId) return
-      frameId = window.requestAnimationFrame(resolveActiveIndex)
-    }
+    window.addEventListener('scroll', handleScroll)
+    handleScroll() // Initial check
 
-    resolveActiveIndex()
-    window.addEventListener('scroll', requestUpdate, { passive: true })
-    window.addEventListener('resize', requestUpdate)
-
-    return () => {
-      if (frameId) {
-        window.cancelAnimationFrame(frameId)
-      }
-      window.removeEventListener('scroll', requestUpdate)
-      window.removeEventListener('resize', requestUpdate)
-    }
-  }, [backgrounds.length])
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return (
-    <>
-      {backgrounds.map((url, index) => (
+    <div className="fixed inset-0 z-0">
+      {imageUrls.map((url, index) => (
         <div
-          key={typeof url === 'string' ? `${index}-${url}` : index}
-          className={`fixed-background fixed-background-layer${activeIndex === index ? ' is-active' : ''}`}
-          style={{ backgroundImage: `url(${url})` }}
-          aria-hidden="true"
-        />
+          key={index}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+          style={{
+            backgroundImage: `url(${url})`,
+            opacity: activeIndex === index ? 1 : 0,
+          }}
+        >
+          <div className="absolute inset-0 bg-black/60" />
+        </div>
       ))}
-    </>
+    </div>
   )
 }

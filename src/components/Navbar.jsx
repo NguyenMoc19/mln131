@@ -3,7 +3,7 @@ import { Menu } from 'lucide-react'
 
 const navItems = [
   { href: '#landing', label: 'Trang chính' },
-  { href: '#introduction', label: 'Giới thiệu' },
+  { href: '#party-commitment', label: 'Giới thiệu' },
   { href: '#achievements', label: 'Thành tựu' },
   { href: '#principles', label: 'Nguyên tắc' },
   { href: '#critical-question', label: 'Critical Question' },
