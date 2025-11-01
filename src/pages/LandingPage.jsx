@@ -17,7 +17,7 @@ const tocItems = [
 export default function LandingPage() {
   return (
     <PageLayout>
-      <StoryPanel initiallyVisible>
+      <StoryPanel initiallyVisible backgroundIndex={0}>
         <ContentCard className="text-left space-y-6">
           <header className="space-y-4">
             <p className="uppercase tracking-[0.4em] text-sm text-amber-700 font-semibold">Trang chủ</p>
@@ -34,7 +34,7 @@ export default function LandingPage() {
         </ContentCard>
       </StoryPanel>
 
-      <StoryPanel>
+      <StoryPanel backgroundIndex={0}>
         <ContentCard className="text-left space-y-5">
           <h2 className="text-2xl md:text-3xl font-bold vintage-heading">Mục lục</h2>
           <nav className="text-lg vintage-text">

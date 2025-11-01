@@ -36,8 +36,10 @@ export default function Story() {
   const heroItems = (disciplineData?.periods?.[0]?.items || []).slice(0, 3)
   const highlightedQuote = cqEvidences?.quotes?.[0]
   const secondaryQuote = cqEvidences?.quotes?.[1]
-  const coverBackgroundUrl = 'https://imgcdn.tapchicongthuong.vn/tcct-media/23/9/23/cam_650e6ea3a4dfa.jpg'
-  const journeyBackgroundUrl = 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1600&auto=format&fit=crop'
+  const backgroundImages = [
+    'https://imgcdn.tapchicongthuong.vn/tcct-media/23/9/23/cam_650e6ea3a4dfa.jpg',
+    'https://a.tcnn.vn/Images/images/tong-bi-thu-nguyen-phu-trong-phai-neu-cao-hon-nua-tinh-than-trach-nhiem-quyet-liet-dau-tranh-phong-chong-tham-nhung-tieu-cuc-20230619142728.jpg',
+  ]
 
   const timelineEvents = [
     { year: '2013', text: 'Ban Chỉ đạo Trung ương về Phòng, chống tham nhũng được thành lập.' },
@@ -282,22 +284,18 @@ export default function Story() {
 
   return (
     <div className="relative min-h-screen z text-white">
-      <FixedBackground />
+      <FixedBackground imageUrls={backgroundImages} />
       <ProgressBar />
       <Navbar />
       <main>
         <section
           id="landing"
+          data-fixed-bg-index="0"
           className="relative min-h-screen flex flex-col items-center justify-center text-center text-white pt-32 pb-24 px-6 overflow-hidden"
         >
-          <div className="absolute inset-0">
-            <img src={coverBackgroundUrl} alt="Không vùng cấm - Không ngoại lệ" className="h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-black/60" />
-            <div
-              className="absolute inset-x-0 bottom-0 h-80"
-              style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.4), transparent)' }}
-            />
-          </div>
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-80"
+          />
           <div className="relative z-10 max-w-4xl space-y-6">
             <p className="text-xs md:text-sm uppercase tracking-[0.6em] text-amber-200">Trang chính</p>
             <h1 className="text-4xl md:text-6xl font-black leading-tight tracking-[0.08em]">KHÔNG VÙNG CẤM - KHÔNG NGOẠI LỆ</h1>
@@ -325,16 +323,13 @@ export default function Story() {
 
         <section
           id="hero"
+          data-fixed-bg-index="0"
           className="relative min-h-screen flex flex-col items-center justify-center text-center text-white pt-32 pb-20 px-6 overflow-hidden"
         >
-          <div className="absolute inset-0">
-            <img src={journeyBackgroundUrl} alt="Hành trình phòng, chống tham nhũng" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-black/70" />
-            <div
-              className="absolute inset-x-0 bottom-0 h-72"
-              style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.35), transparent)' }}
-            />
-          </div>
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-72"
+            style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.35), transparent)' }}
+          />
           <div className="relative z-10 max-w-5xl space-y-8">
             <p className="text-xs md:text-sm uppercase tracking-[0.6em] text-amber-200">Hành trình phòng, chống tham nhũng</p>
             <h2 className="text-4xl md:text-5xl font-black leading-tight">“Không vùng cấm”</h2>
@@ -370,7 +365,7 @@ export default function Story() {
           </div>
         </section>
 
-        <StoryPanel id="introduction">
+        <StoryPanel id="introduction" backgroundIndex={1}>
           <ContentCard>
             <h2 className="text-4xl md:text-5xl font-black vintage-heading mb-6">Khởi nguồn & quyết tâm</h2>
             <div className="space-y-6 text-xl vintage-text">
@@ -398,14 +393,14 @@ export default function Story() {
           </ContentCard>
         </StoryPanel>
 
-        <StoryPanel id="achievements">
+        <StoryPanel id="achievements" backgroundIndex={1}>
           <ContentCard>
             <h2 className="text-4xl md:text-6xl font-black vintage-heading mb-6 text-center">Thành tựu nổi bật</h2>
             <Tabs tabs={achievementTabs} />
           </ContentCard>
         </StoryPanel>
 
-        <StoryPanel id="principles">
+        <StoryPanel id="principles" backgroundIndex={1}>
           <ContentCard>
             <h2 className="text-4xl md:text-6xl font-black vintage-heading mb-6 text-center">Nguyên tắc hành động</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -430,7 +425,7 @@ export default function Story() {
           </ContentCard>
         </StoryPanel>
 
-        <StoryPanel id="critical-question">
+        <StoryPanel id="critical-question" backgroundIndex={2}>
           <ContentCard>
             <h2 className="text-4xl md:text-6xl font-black vintage-heading mb-6 text-center">Câu hỏi then chốt</h2>
             <p className="text-2xl vintage-text text-center mb-8">{cqArguments?.critical_question}</p>
@@ -489,7 +484,7 @@ export default function Story() {
           </ContentCard>
         </StoryPanel>
 
-        <StoryPanel id="technical-design">
+        <StoryPanel id="technical-design" backgroundIndex={2}>
           <ContentCard>
             <h2 className="text-4xl md:text-6xl font-black vintage-heading mb-6 text-center">Hệ sinh thái giải pháp</h2>
             <p className="text-lg vintage-text text-center max-w-3xl mx-auto mb-8">
@@ -499,7 +494,7 @@ export default function Story() {
           </ContentCard>
         </StoryPanel>
 
-        <StoryPanel id="references" className="pb-32">
+        <StoryPanel id="references" className="pb-32" backgroundIndex={2}>
           <ContentCard className="text-center">
             <h2 className="text-3xl md:text-4xl font-black vintage-heading mb-6">Tài liệu tham khảo</h2>
             <div className="space-y-3 text-left max-w-3xl mx-auto vintage-subtext">

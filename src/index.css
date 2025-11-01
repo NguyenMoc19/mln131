@@ -25,6 +25,13 @@ body {
   background-position: center;
   background-attachment: fixed;
 }
+.fixed-background-layer {
+  opacity: 0;
+  transition: none;
+}
+.fixed-background-layer.is-active {
+  opacity: 1;
+}
 .fixed-background::before {
   content: '';
   position: absolute;

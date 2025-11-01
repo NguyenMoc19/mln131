@@ -1,7 +1,13 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 
-export default function StoryPanel({ children, className = '', initiallyVisible = false, ...rest }) {
+export default function StoryPanel({ children, className = '', initiallyVisible = false, backgroundIndex, ...rest }) {
   const ref = useRef(null)
+
+  const resolvedBackgroundIndex = useMemo(() => {
+    if (backgroundIndex === null) return null
+    if (typeof backgroundIndex === 'number' && backgroundIndex >= 0) return backgroundIndex
+    return undefined
+  }, [backgroundIndex])
 
   useEffect(() => {
     const el = ref.current
@@ -28,7 +34,12 @@ export default function StoryPanel({ children, className = '', initiallyVisible 
   }, [initiallyVisible])
 
   return (
-    <section ref={ref} className={`story-panel ${className}`} {...rest}>
+    <section
+      ref={ref}
+      className={`story-panel ${className}`}
+      {...(resolvedBackgroundIndex === null ? {} : { 'data-fixed-bg-index': resolvedBackgroundIndex })}
+      {...rest}
+    >
       {children}
     </section>
   )
