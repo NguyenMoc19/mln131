@@ -660,8 +660,7 @@ export default function Story() {
                                             <h4 className="text-xl font-bold vintage-heading">Bảo vệ chế độ</h4>
                                         </div>
                                         <p className="vintage-text leading-relaxed">
-                                            Phòng, chống tham nhũng góp phần <span className="font-bold text-blue-900">bảo vệ chế độ xã hội chủ nghĩa</span>,
-                                            củng cố vai trò lãnh đạo của Đảng, xây dựng Nhà nước pháp quyền.
+                                            Phòng, chống tham nhũng góp phần <span className="font-bold text-blue-900">bảo vệ chế độ xã hội chủ nghĩa</span>, củng cố vai trò lãnh đạo của Đảng, xây dựng Nhà nước pháp quyền.
                                         </p>
                                     </div>
 
@@ -693,8 +692,7 @@ export default function Story() {
                                             <h4 className="text-xl font-bold vintage-heading">Củng cố niềm tin</h4>
                                         </div>
                                         <p className="vintage-text leading-relaxed">
-                                            Phòng, chống tham nhũng góp phần <span className="font-bold text-amber-900">củng cố niềm tin của nhân dân</span>
-                                            vào chế độ và pháp luật.
+                                            Phòng, chống tham nhũng góp phần <span className="font-bold text-amber-900">củng cố niềm tin của nhân dân</span> vào chế độ và pháp luật.
                                         </p>
                                     </div>
                                 </div>
