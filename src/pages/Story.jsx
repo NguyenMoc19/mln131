@@ -604,11 +604,11 @@ export default function Story() {
                                     <h4 className="text-2xl font-bold vintage-accent mb-6 text-center">Các lĩnh vực trọng điểm</h4>
                                     <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                                         {[
-                                            { name: 'Ngân hàng, tài chính', icon: '🏦', color: 'from-blue-400 to-blue-500' },
-                                            { name: 'Đất đai, quy hoạch', icon: '🏗️', color: 'from-green-400 to-green-500' },
-                                            { name: 'Giao thông, xây dựng', icon: '🚗', color: 'from-orange-400 to-orange-500' },
-                                            { name: 'Y tế, giáo dục', icon: '🏥', color: 'from-red-400 to-red-500' },
-                                            { name: 'Quản lý nhà nước', icon: '🏛️', color: 'from-purple-400 to-purple-500' }
+                                            { name: 'Ngân hàng, tài chính', icon: '🏦', color: 'from-red-900 to-red-900' },
+                                            { name: 'Đất đai, quy hoạch', icon: '🏗️', color: 'from-red-900 to-red-900' },
+                                            { name: 'Giao thông, xây dựng', icon: '🚗', color: 'from-red-900 to-red-900' },
+                                            { name: 'Y tế, giáo dục', icon: '🏥', color: 'from-red-900 to-red-900' },
+                                            { name: 'Quản lý nhà nước', icon: '🏛️', color: 'from-red-900 to-red-900' }
                                         ].map((field, idx) => (
                                             <div key={idx} className={`p-6 rounded-xl bg-linear-to-br ${field.color} text-white text-center hover:scale-105 transition-transform duration-300 shadow-lg`}>
                                                 <div className="text-4xl mb-3">{field.icon}</div>
